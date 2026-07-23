@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeFuzzy - Emotion-Based Music Recommender</title>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Ambient glow decorative backdrops -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="ambient-glow-3"></div>
+
+    <!-- Majestic Hero Section -->
+    <section class="hero">
+        <span class="hero-badge">AI Cognitive Music Engine</span>
+        <h1>Recommend Music That Understands <span>How You Feel</span></h1>
+        <p>
+            VibeFuzzy uses advanced Fuzzy Logic rules to map your fluid, subjective emotions into target audio feature space. Skip rigid playlists; discover tracks tailored to your exact mood.
+        </p>
+        <div class="hero-buttons">
+            <a href="#dashboard" class="btn btn-primary">
+                <i class="fa-solid fa-play"></i>
+                Tune Your Vibe
+            </a>
+            <a href="#how-it-works" class="btn btn-secondary">
+                <i class="fa-solid fa-circle-question"></i>
+                How It Works
+            </a>
+        </div>
+
+        <!-- Tech Feature Cards -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h3>Fuzzy Intelligence</h3>
+                <p>Translates subjective, non-binary emotions into degrees of membership across overlapping fuzzy sets.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-compass"></i>
+                </div>
+                <h3>Circumplex Mapping</h3>
+                <p>Applies the psychological Russell Affect Model, tracking valence and energy to classify your mood profile.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h3>Acoustic Matching</h3>
+                <p>Evaluates multi-dimensional track characteristics and matches targets using weighted Euclidean distances.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Workspace Container -->
+    <div class="container" id="dashboard">
+        
+        <h2 class="dashboard-title">
+            <i class="fa-solid fa-music"></i>
+            Recommendation <span>Dashboard</span>
+        </h2>
+
+        <!-- Interactive Control Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Left Side: User Input Panel -->
+            <div class="glass-panel">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-sliders"></i>
+                    1. Define Your Vibe
+                </h2>
+
+                <!-- Valence Slider -->
+                <div class="input-group">
+                    <div class="slider-label-container">
+                        <span class="slider-name">Emotional Valence</span>
+                        <span class="slider-val" id="valenceVal">5.0</span>
+                    </div>
+                    <div class="slider-wrapper">
+                        <input type="range" min="0" max="10" step="0.1" value="5" class="range-slider" id="valenceSlider">
+                    </div>
+                    <div class="slider-hints">
+                        <span>😢 Melancholic</span>
+                        <span>😊 Cheerful</span>
+                    </div>
+                </div>
+
+                <!-- Arousal Slider -->
+                <div class="input-group">
+                    <div class="slider-label-container">
+                        <span class="slider-name">Physiological Arousal</span>
+                        <span class="slider-val" id="arousalVal">5.0</span>
+                    </div>
+                    <div class="slider-wrapper">
+                        <input type="range" min="0" max="10" step="0.1" value="5" class="range-slider" id="arousalSlider">
+                    </div>
+                    <div class="slider-hints">
+                        <span>😴 Peaceful / Calm</span>
+                        <span>⚡ Intense / Energetic</span>
+                    </div>
+                </div>
+
+                <!-- Circumplex Mood Indicator -->
+                <div class="mood-indicator-box">
+                    <span class="mood-indicator-label">Current Mood Profile:</span>
+                    <span id="moodLabelText">Neutral</span>
+                </div>
+
+                <!-- Strategies Selector -->
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">
+                    <i class="fa-solid fa-bullseye"></i>
+                    2. Choose Target Goal
+                </h2>
+                
+                <div class="strategy-grid">
+                    <div class="strategy-card active" data-strategy="match">
+                        <div class="strategy-title">Match Mood</div>
+                        <div class="strategy-desc">Find music mirroring your current state.</div>
+                    </div>
+                    
+                    <div class="strategy-card" data-strategy="boost">
+                        <div class="strategy-title">Boost Mood</div>
+                        <div class="strategy-desc">Warm, uplifting pop to elevate your happiness.</div>
+                    </div>
+                    
+                    <div class="strategy-card" data-strategy="calm">
+                        <div class="strategy-title">Calm Down</div>
+                        <div class="strategy-desc">Soothing acoustic rhythms to lower tension.</div>
+                    </div>
+                    
+                    <div class="strategy-card" data-strategy="vent">
+                        <div class="strategy-title">Vent / Release</div>
+                        <div class="strategy-desc">Heavy rock/metal for cathartic emotional release.</div>
+                    </div>
+                </div>
+
+                <!-- Recommend Button -->
+                <button class="btn-recommend" id="btnRecommend">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Generate Recommendations
+                </button>
+            </div>
+
+            <!-- Right Side: Recommendation Results / Canvas -->
+            <div class="glass-panel results-pane" id="resultsHeader">
+                
+                <!-- Initial State Placeholder -->
+                <div id="placeholderPanel" class="placeholder-panel">
+                    <i class="fa-solid fa-compact-disc"></i>
+                    <h3>Ready for Your Waves</h3>
+                    <p>Adjust the mood parameters and click the magic button to generate song matches powered by fuzzy logic.</p>
+                </div>
+
+                <!-- Polished Loading Animation -->
+                <div id="loadingPanel" class="loading-panel">
+                    <div class="loader-glow-ring">
+                        <div class="loader-ring"></div>
+                        <div class="loader-ring"></div>
+                        <div class="loader-ring"></div>
+                    </div>
+                    <div class="wave-container">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                    <h4 class="loading-text">Synthesizing Mood State...</h4>
+                    <p class="loading-status" id="loadingStatusText">Analyzing emotional inputs...</p>
+                </div>
+
+                <!-- Results Output Canvas -->
+                <div id="resultsContainer" style="display: none;">
+                    
+                    <!-- Strategy Banner -->
+                    <div class="results-banner">
+                        <div class="banner-strategy-details">
+                            <span class="banner-strategy-badge">Strategy Model Active</span>
+                            <span class="banner-strategy-name" id="recStrategyName">Match Mood</span>
+                            <span class="banner-strategy-desc" id="recStrategyDesc">Finding music that mirrors your current emotional state.</span>
+                        </div>
+                        <div style="font-size: 2rem; color: var(--primary);">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                    </div>
+
+                    <!-- Target Specifications -->
+                    <div class="target-summary">
+                        <div class="target-title">Defuzzified Target Parameters</div>
+                        <div class="target-grid">
+                            <div class="target-item">
+                                <span class="target-label">Track Valence</span>
+                                <div class="target-value-container">
+                                    <span class="target-value" id="targetValence">0.50</span>
+                                    <span class="target-max">/1.0</span>
+                                </div>
+                                <div class="target-bar-bg">
+                                    <div class="target-bar-fill" id="targetValenceBar" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="target-item">
+                                <span class="target-label">Track Energy</span>
+                                <div class="target-value-container">
+                                    <span class="target-value" id="targetEnergy">0.50</span>
+                                    <span class="target-max">/1.0</span>
+                                </div>
+                                <div class="target-bar-bg">
+                                    <div class="target-bar-fill" id="targetEnergyBar" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="target-item">
+                                <span class="target-label">Danceability</span>
+                                <div class="target-value-container">
+                                    <span class="target-value" id="targetDanceability">0.50</span>
+                                    <span class="target-max">/1.0</span>
+                                </div>
+                                <div class="target-bar-bg">
+                                    <div class="target-bar-fill" id="targetDanceabilityBar" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="target-item">
+                                <span class="target-label">Normalized Tempo</span>
+                                <div class="target-value-container">
+                                    <span class="target-value" id="targetTempo">0.50</span>
+                                    <span class="target-max">/1.0</span>
+                                </div>
+                                <div class="target-bar-bg">
+                                    <div class="target-bar-fill" id="targetTempoBar" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Switcher Tabs -->
+                    <div class="tab-header">
+                        <button class="tab-btn active" data-tab="songsTab">Song Recommendations</button>
+                        <button class="tab-btn" data-tab="vizTab">Fuzzy Logic Controller State</button>
+                    </div>
+
+                    <!-- Tab 1: Song Cards Grid -->
+                    <div class="tab-content active" id="songsTab">
+                        <div class="songs-grid" id="songsGrid">
+                            <!-- Populated Dynamically via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: FIS Visualizer Plot -->
+                    <div class="tab-content" id="vizTab">
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.55;">
+                            The diagram below displays the current state of the Fuzzy Inference System. Your adjusted input dials (mapped to desired Valence and Arousal coordinates) are shown as <strong>red dashed vertical lines</strong> on the input sets. The output centroid defuzzified targets are displayed as <strong>green dashed vertical lines</strong>.
+                        </p>
+                        <div class="fis-plot-container">
+                            <img id="fisPlotImg" src="" alt="Fuzzy Inference Controller Evaluation Plot" class="fis-plot-img">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Tech Details Footer Section -->
+        <div class="explanation-panel" id="how-it-works">
+            <h3 style="font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem;">
+                Inside the Machine: Fuzzy Logic Systems
+            </h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.55; margin-bottom: 1.5rem;">
+                Fuzzy inference is a computational method that models complex decision-making rules mimicking human reasoning, allowing for fluid boundaries instead of binary "true" or "false" thresholds.
+            </p>
+            
+            <div class="explanation-grid">
+                <div class="explanation-col">
+                    <h4><span>1.</span> Fuzzification Process</h4>
+                    <p>
+                        Valence and arousal dial values are mapped onto membership distributions. We model these sets using overlapping triangular membership functions (`low`, `medium`, `high`). This means an arousal score of 4.2 could represent a mix of 40% `medium` energy and 25% `low` energy simultaneously.
+                    </p>
+                </div>
+                
+                <div class="explanation-col">
+                    <h4><span>2.</span> The 9-Rule Base</h4>
+                    <p>
+                        A rule compiler processes these overlapping variables using fuzzy logical intersections (AND operations). For instance: <em>"If Valence is Low and Arousal is High, THEN target energy is High, target valence is Low, and target tempo is High."</em> All active rule outcomes are mathematically combined.
+                    </p>
+                </div>
+                
+                <div class="explanation-col">
+                    <h4><span>3.</span> Defuzzification & Vector Match</h4>
+                    <p>
+                        The combined output membership area is integrated using the mathematical <strong>Centroid method</strong> to find its center of mass. This outputs float features between 0.0 and 1.0. A weighted Euclidean distance maps this target to songs in our library, ranking them by match percentage.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Warning/Info Bubble -->
+            <div class="info-bubble">
+                <i class="fa-solid fa-circle-info"></i>
+                <div>
+                    <strong>Implementation Reference:</strong> Built using the scientific Python libraries [NumPy](https://numpy.org) for matrix computations, [scikit-fuzzy](https://github.com/scikit-fuzzy/scikit-fuzzy) for the Fuzzy Logic controller simulation, [Matplotlib](https://matplotlib.org) for headless graphic plot rendering, and [Flask](https://flask.palletsprojects.com) for local REST endpoints bindings.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- Custom JS -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</html>
